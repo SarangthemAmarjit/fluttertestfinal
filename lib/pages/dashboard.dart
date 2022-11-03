@@ -91,7 +91,7 @@ class _HeroesAppState extends State<HeroesApp> {
         Expanded(
           child: SizedBox(
             child: const Text(
-              'Top Of Heroes',
+              'Top Heroes',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),

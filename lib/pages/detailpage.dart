@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertest/refactor/button.dart';
 import 'package:fluttertest/refactor/refactor.dart';
+import 'package:fluttertest/router/router.gr.dart';
 
 class DetailPage extends StatefulWidget {
   late String? id;
@@ -16,92 +19,41 @@ class _DetailPageState extends State<DetailPage> {
   Container? container3;
   final namecontroller = TextEditingController();
   Container container1 = Container(
+    height: 80,
     child: Column(
       children: [
-        const Text(
-          'Top Of Heroes',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 25, top: 15),
-          child: Row(
-            children: [
-              ElevatedButton(
-                  style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.hovered))
-                            return Colors.black; //<-- SEE HERE
-                          return null; // Defer to the widget's default.
-                        },
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blueGrey)),
-                  onPressed: () {},
-                  child: const Text(
-                    'Tomba',
-                    style: TextStyle(color: Colors.white),
-                  )),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.hovered))
-                            return Colors.black; //<-- SEE HERE
-                          return null; // Defer to the widget's default.
-                        },
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blueGrey)),
-                  onPressed: () {},
-                  child: const Text(
-                    'Chaoba',
-                    style: TextStyle(color: Colors.white),
-                  )),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.hovered))
-                            return Colors.black; //<-- SEE HERE
-                          return null; // Defer to the widget's default.
-                        },
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blueGrey)),
-                  onPressed: () {},
-                  child: const Text(
-                    'Ibohal',
-                    style: TextStyle(color: Colors.white),
-                  )),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.hovered))
-                            return Colors.black; //<-- SEE HERE
-                          return null; // Defer to the widget's default.
-                        },
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blueGrey)),
-                  onPressed: () {},
-                  child: const Text(
-                    'Sanahanbi',
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ],
+        Expanded(
+          child: SizedBox(
+            child: const Text(
+              'Top Heroes',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
+        Expanded(
+          child: SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: ListView.builder(
+                itemBuilder: (c, i) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Topherobutton(
+                        name: topheroes[i]["name"],
+                        btncall: () {
+                          c.router.push(DetailRoute(
+                              id: topheroes[i]["id"].toString(),
+                              name: topheroes[i]["name"]));
+                        }),
+                  );
+                },
+                itemCount: topheroes.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
+          ),
+        )
       ],
     ),
   );
@@ -214,17 +166,17 @@ class _DetailPageState extends State<DetailPage> {
                       decoration: InputDecoration.collapsed(
                           hintText: widget.name!.toUpperCase())),
                 ),
-                Text(
+                const Text(
                   " Details",
                   style: TextStyle(fontSize: 20),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
-              "id: " + widget.id!,
+              "id: ${widget.id!}",
             ),
             const SizedBox(
               height: 5,
